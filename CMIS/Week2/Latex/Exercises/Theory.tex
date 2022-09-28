@@ -1,0 +1,44 @@
+\section{Theory}
+\subsection{Advection}
+Advection is the movement of some quantity via the flow of a fluid. The partial differential equation
+\begin{equation}\label{advection}
+	\frac{\partial \phi}{\partial t} = -(\mathbf{u}\cdot \Delta)\phi
+\end{equation}
+Where $\phi$ is a scalar field and \textbf{u} is a velocity field, is often used when dealing with advection terms. The idea when working with advection is, we treat each node in our grid as a particle, and we then trace each particle back in time and copy its value to the present time step. However, this tracing back in time is not free from issue, as we might trace a particle to outside our grid. If this happens we will have to interpolate the point back on the boundary, preferably by finding the intersection point between the boundary and the 'trace back'. When looking at the math we find that $\phi(t)$ changes the same way whether we take a particle approach or grid approach. If we define $\frac{D\phi(\mathbf{x}, t)}{Dt} = k$, we have:
+\begin{equation*}
+	k = (\mathbf{u}\cdot \Delta)\phi + \frac{\partial \phi}{\partial t}
+\end{equation*}
+Solving $\frac{D\phi(\mathbf{x}, t)}{Dt} = k$ using a backwards difference approximation (implicit first order time integration) we find:
+\begin{equation*}
+	\phi^t = \phi^{t-\Delta t}+\Delta tk
+\end{equation*}
+By moving the right hand side of \autoref{advection} to the left side, we find $k = 0$ and we are left with $\phi^t = \phi^{t-\Delta t}$. To find the location in the grid of $\phi^{t-\Delta t}$ we can use a backwards finite difference approximation:
+\begin{equation*}
+	\frac{\partial \mathbf{x}}{\partial t} = \frac{\mathbf{x}^t - \mathbf{x}^{t-\Delta t}}{\Delta t} = \mathbf{u}
+\end{equation*}
+Solving for node location at time $t - \Delta t$ we have $\mathbf{x}^{t-\Delta t} = \mathbf{x}^t-\Delta t\mathbf{u}$. As we need to interpolate $\mathbf{x}^{t-\Delta t}$ onto our grid we 'smooth' $\phi$ and we thus loose or dissipate $\phi$.
+
+\subsection{Mean curvature flow}
+When applying mean curvature flow, we smooth our object along the mean curvature normal direction which means we minimize the surface area. Mean curvature flow is given by the partial differential equation
+\begin{equation*}
+	\frac{\partial \phi}{\partial t} = \nabla \cdot \frac{\nabla \phi}{||\nabla \phi||}
+\end{equation*}
+Where we initialize $\phi$ as a signed distance field and define the right hand side as $\kappa$. We can now rewrite $\kappa$ using $\nabla \cdot (a\mathbf{v}) = \nabla a\cdot \mathbf{v}+a\nabla\cdot \mathbf{v}$ and get:
+\begin{align*}
+	\kappa &= \nabla \phi \cdot \nabla \left(\frac{1}{||\nabla \phi ||} \right) + \frac{1}{||\nabla \phi ||}\nabla\cdot \phi \\
+	&= \nabla \phi \cdot \nabla \left( \left( \nabla \phi^T\nabla \phi \right)^{-\frac{1}{2}}\right) + \frac{\nabla^2\phi}{||\nabla \phi ||}
+\end{align*}
+Using the chain rule we can further deduce:
+\begin{equation*}
+	\nabla\left( \left( \nabla \phi^T\nabla \phi \right)^{-\frac{1}{2}}\right) = -\frac{1}{2}\frac{1}{||\nabla\phi||^3}\cdot 2(\nabla(\nabla\phi))\nabla\phi
+\end{equation*}
+Using the Hessian $\mathbf{H} = \nabla(\nabla\phi)$ and the trace of the Hessian $\nabla^2\phi = \text{tr}(\mathbf{H})$ we have:
+\begin{align*}
+	\kappa &= \frac{\text{tr}(\mathbf{H})}{||\nabla\phi||} - \frac{\nabla\phi^T\mathbf{H}\nabla\phi}{||\nabla\phi||^3}\\
+	&= \frac{\nabla\phi^T\nabla\phi \text{tr}(\mathbf{H}) - \nabla\phi^T\mathbf{H}\nabla\phi}{||\nabla\phi||^3}
+\end{align*}
+using central difference approximations we find that the approximation \textit{k} of $\kappa$ at some node in our grid can be found by:
+\begin{equation}\label{denominator}
+	k_{i,j} = \frac{(D_x\phi_{i,j})^2D_{yy}\phi_{i,j} + (D_y\phi_{i,j})^2D_{xx}\phi_{i,j} - 2D_{xy}\phi_{i,j}D_x\phi_{i,j}D_y\phi_{i,j}}{\sqrt{(D_x\phi_{i,j})^2+(D_y\phi_{i,j})^2}}
+\end{equation}
+Where $D_x$ is the first order approximation in the \textit{x} direction, $D_y$ in the \textit{y} direction, $D_{xx}$ is the second order approximation in the \textit{x} direction, $D_{yy}$ in the \textit{y} direction and $D_{xy}$ being the second order approximation in both the \textit{x} and \textit{y} direction. Using \textit{k} we can now approximate the mean curvature at each node in our grid and construct the update scheme $\phi_{i,j}^{t+1} = \phi_{i,j}^t + \Delta t k_{i,j}$. However, some numerical considerations needs to be taken. For instance the denominator in \autoref{denominator} might go to zero which is unrealistic in a signed distance field where it would be approximately 1 everywhere. We can remedy this by adding a small epsilon in the denominator, or by redefining the denominator to be equal to 1 if the actual value goes below $\frac{1}{2}$. We cab also clamp our \textit{k} to avoid it going to infinity, as the maximum mean curvature we can find is $\frac{1}{\text{max}(\Delta x, \Delta y)}$. 

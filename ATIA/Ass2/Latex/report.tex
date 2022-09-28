@@ -1,0 +1,252 @@
+% Opsætter KU Tex dokument
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}                                                        %
+\usepackage[a4paper, hmargin={2.8cm, 2.8cm}, vmargin={2.5cm, 2.5cm}]{geometry} %
+\usepackage{eso-pic}  % \AddToShipoutPicture                                   %
+\usepackage{graphicx} % \includegraphics                                       %
+%\usepackage{subfig} - Can not be used with subcaption package (for subfigures)
+\usepackage{setspace}                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Pakker til skrifttyper, tekst osv.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \usepackage[utf8]{inputenc}  % Implementere Unicode                        %
+    \usepackage[T1]{fontenc}     % Unicode skrifttype fx. é skrives som 1 tegn %
+    \usepackage[english]{babel}   % Dansk Ordbog                                %
+    \usepackage{microtype}       % Forbedre linjeombrydningen                  %
+    \usepackage{libertine}       % Skrifttype                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Pakker til matematik og kode.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \usepackage{mathtools}       % Udvidelse til amsmath pakken                %
+    \usepackage{amsthm}          % Pakke til bevisførelse                      %
+    \usepackage{amssymb}         % Extra matematiske symboler                  %				
+	\usepackage{mychemistry}												   %
+	\usepackage[version=3]{mhchem}											   %
+	\usepackage{wrapfig}													   %
+	\usepackage{siunitx}	
+	\usepackage{anyfontsize}
+	\usepackage{ragged2e}
+	\usepackage{algorithm2e}
+	\usepackage[final]{pdfpages}
+	\usepackage{listings}
+	\usepackage{tikz}
+	\usepackage{multirow}
+	\usepackage{makecell}
+	\usepackage{fourier} 
+	\usepackage{array}
+	\usepackage{todonotes}
+	\usepackage{pdflscape}
+	\usetikzlibrary{arrows,shapes}
+	\usepackage{titlesec}
+	\usepackage{hyperref}
+	\usepackage{url}
+	\usepackage[nottoc,numbib]{tocbibind}
+	\usepackage{semantic}
+	\usepackage{subcaption}
+	\usepackage{qtree}
+	\usepackage{hhline}
+	
+	\definecolor{light-gray}{gray}{0.85}
+	\lstset{
+	    	numbers=left,
+	    	breaklines=true,
+	    	backgroundcolor=\color{light-gray},
+	    	tabsize=2,
+	    	basicstyle=\ttfamily,
+	    	literate={\ \ }{{\ }}1
+	}
+	
+	\urlstyle{same}
+	\tikzstyle{vertex}=[circle,fill=white!25,minimum size=20pt,inner sep=0pt]
+	\tikzstyle{edge} = [draw,thick,-]
+
+	\definecolor{light-gray}{gray}{0.85}
+	\definecolor{dkgreen}{RGB}{0.0,128.0,43.0}
+	\lstdefinelanguage{FSharp}%
+{morekeywords={new, match, with, rec, open, module, namespace, type, of, member, % 
+and, for, while, true, false, in, do, begin, fun, function, return, yield, try, %end
+mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally, int },
+  otherkeywords={ let!, return!, do!, yield!, use!, var, from, select, where, order, by },
+  keywordstyle=\color{bluekeywords},
+  sensitive=true,
+  basicstyle=\ttfamily,
+	breaklines=true,
+  xleftmargin=\parindent,
+  aboveskip=\bigskipamount,
+	tabsize=4,
+  morecomment=[l][\color{dkgreen}]{///},
+  morecomment=[l][\color{dkgreen}]{//},
+  morecomment=[l][\color{dkgreen}]{(*},
+  morecomment=[s][\color{dkgreen}]{},
+  morestring=[b]",
+  showstringspaces=false,
+  literate={`}{\`}1,
+  stringstyle=\color{redstrings},
+}
+	
+	
+												   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Pakker til layout.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \usepackage{fancyhdr}            % Gør det muligt at bruge sidehoveder     %
+    \usepackage{graphicx}            % Mulighed for bl.a. \includegraphics     %
+    \usepackage{colortbl}            % Hvis man vil farvelægge sine tabeller   %
+    \usepackage{array}               % Gør miljøerne array og tabular bedre    %
+    \usepackage{parskip}             % Første paragraf i afsnit indrykkes ikke %
+    \usepackage{titlesec}            % Tilpassing af afstand mellem sektioner  %
+    \usepackage[lastpage,user]{zref} % Side x af y                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Implementerer en række makroer og de pakker der er importeret
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \pagestyle{fancy}                        % Implementerer sidehoved         %
+    \lhead{University of Copenhagen}                % Venstre sidehoved               %
+    \rhead{Casper Bresdahl}                             % Højre sidehoved      %
+    \cfoot{\thepage\ of \zpageref{LastPage}} % Side x af y                     %
+    \newtheorem*{prp}{Propostion}            % Skaber nyt theorem  
+    \renewcommand{\baselinestretch}{1.25}       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Mindsker afstanden mellem sektioner
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 1pt minus 3pt}      %
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 1pt minus 3pt}   %
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 1pt minus 3pt}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Ændrer størelsen på sections
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titleformat{\section}
+{\normalfont\fontsize{14}{16}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\fontsize{12}{14}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+{\normalfont\fontsize{11}{13}\bfseries}{\thesubsubsection}{1em}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\begin{center}
+ % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE University of Copenhagen}\\[1.5cm] % Name of your university/college
+\textsc{\Large Computer Science}\\[0.5cm] % Major heading such as course name
+\textsc{\large Advanced Topics in Image Analysis}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Assignment 2}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\ 
+% Your name
+Casper \textsc{Bresdahl} \\
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Teacher:} \\
+Sune \textsc{Darkner}
+\end{flushright}
+\end{minipage}\\[2cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Forfattere:}\\
+%Axel \textsc{Christof}\\% Your name
+%Casper \textsc{Bresdahl}\\
+%Emilie \textsc{Bentsen}\\[1cm] 
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics{logo.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+%Disse linjer skaber forside, evt indholdsfortegnelse, og sætter sidetal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+									                                           %
+    \thispagestyle{empty}   % Fjerner sidetal forside                          %
+        % Slå disse til hvis der ønskes indholdsfortegnelse                    %
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+            \newpage                % Side til indholdsfortegnelse            %
+            %\thispagestyle{empty}   % Fjerner sidetal fra indholdsfortegnelse %
+            %\tableofcontents        % Skaber indholdsfortegnelse              %
+    \end{center}
+    %\section*{Forord}
+    	
+		
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage                % Første rigtige side
+    \setcounter{page}{1}    % Sætter rigtigt sidetal på første side
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{titlepage}
+{\fontsize{10}{14}\selectfont
+\section{Assignment 2}
+Throughout this assignment we will use image A (\autoref{A}) and image B (\autoref{B}) to measure similarity. Both image have been downsampled and then blurred with a Gaussian kernel with sigma being 1.
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.4\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Materials/A}
+		\caption{Image A.}
+		\label{A}
+	\end{subfigure}
+	\hspace{1cm}
+	\begin{subfigure}{0.4\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Materials/B}
+		\caption{Image B.}
+		\label{B}
+	\end{subfigure}
+\end{figure}
+
+\input{Exercises/selfSimilarity}
+\input{Exercises/multiModal}
+\input{Exercises/object}
+\input{Exercises/registration}
+\input{Exercises/conclusion}
+
+%\begin{thebibliography}{9}
+%	\bibitem{rectificationError}
+%	Monnase, P., et. al. 'Three-step image rectification'.  British Machine Vision Conference.  Aug 2010.
+%\end{thebibliography}
+
+\end{document}

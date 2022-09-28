@@ -1,0 +1,65 @@
+\section{Finite difference methods}
+Finite difference methods are methods for solving ordinary or partial differential equations by making use of Taylor's Theorem to approximate derivatives with finite differences. This is done by discretizing the domain into a finite number of steps and then the solution of these discrete points are approximated by solving equations of finite differences. The idea can be described as replacing the derivatives by finite difference approximations. For this assignment our focus is on partial differential equations, and we will thus not discuss ordinary differential equations further. \\
+We can now imagine some function partial differential equation$f(x,y)$. If we discretize \textit{f} we sample a finite number of values along both the \textit{x} and \textit{y} axis and we denote this spacing by respectively $\Delta x$ and $\Delta y$. If we keep the spatial information of sampling \textit{f} every $\Delta x$ and $\Delta y$ unit in mind, we can think of this discretization as constructing a computational grid, or just grid for short, where each node in the grid is a functional value. Increasing the sampling rate, i.e decreasing $\Delta x$ and $\Delta y$, results in a larger and finer grid but also in a better approximation to \textit{f}, whereas decreasing the sampling rate results in a smaller and coarser grid. The 'area' in which we sample is called the domain, and the partial differential equation, in our case \textit{f}, which defines what happens in the domain is called a governing equation. With our grid we now have a notion of 'neighbours' and we can now look at how to approximate the derivatives of our grid by finite differences derived from Taylor's Theorem.
+
+\subsection{Forward, backward and central difference approximations}
+Assuming the function whose derivatives are to be approximated is properly behave we can construct a Taylor series:
+\begin{equation*}
+	f(x_i + \Delta x) = f(x_i) + \frac{f^{(1)}(x_i)}{1!}\Delta x + \frac{f^{(2)}(x_i)}{2!}\Delta x^2 + \dots + \frac{f^{(n)}(x_i)}{n!}\Delta x^n + \mathbf{o}(\Delta x)
+\end{equation*}
+It is this series we will use to construct finite difference approximations. If we wish to compute $\frac{\partial f}{\partial x}$ we use a first order Taylor expansion, that is, we use the above Taylor series, but truncate it after the first derivative:
+\begin{equation}
+	f(x_i + \Delta x) = f(x_i) + \frac{f^{(1)}(x_i)}{1!}\Delta x + \mathbf{o}(\Delta x) \label{eq:1}
+\end{equation}
+Using \autoref{eq:1} we can now solve for the first derivative:
+\begin{align*}
+	f(x_i + \Delta x) &= f(x_i) + \frac{f^{(1)}(x_i)}{1!}\Delta x + \mathbf{o}(\Delta x) \iff\\
+	\frac{f(x_i + \Delta x)}{\Delta x} &= \frac{f(x_i)}{\Delta x} + f^{(1)}(x_i) + \frac{\mathbf{o}(\Delta x)}{\Delta x} \iff\\
+	f^{(1)}(x_i) &= \frac{f(x_i + \Delta x)}{\Delta x} - \frac{f(x_i)}{\Delta x} - \frac{\mathbf{o}(\Delta x)}{\Delta x} 
+\end{align*}
+If we now disregard $- \frac{\mathbf{o}(\Delta x)}{\Delta x}$ we get an approximation known as the \textit{forward difference approximation}:
+\begin{equation*}
+	\frac{\partial}{\partial x}f(x_i) \approx \frac{f(x_i + \Delta x) - f(x_i)}{\Delta x}
+\end{equation*}
+Similarly we can write the first order Taylor expansion as:
+\begin{equation}
+	f(x_i - \Delta x) = f(x_i) - \frac{f^{(1)}(x_i)}{1!}\Delta x + \mathbf{o}(\Delta x) \label{eq:2}
+\end{equation}
+Using \autoref{eq:2} we can solve for the first derivative:
+\begin{align*}
+	f(x_i - \Delta x) &= f(x_i) - \frac{f^{(1)}(x_i)}{1!}\Delta x + \mathbf{o}(\Delta x) \iff\\
+	\frac{f(x_i - \Delta x)}{\Delta x} &= \frac{f(x_i)}{\Delta x} - f^{(1)}(x_i) + \frac{\mathbf{o}(\Delta x)}{\Delta x} \iff\\
+	f^{(1)}(x_i) &= \frac{f(x_i)}{\Delta x} - \frac{f(x_i - \Delta x)}{\Delta x} + \frac{\mathbf{o}(\Delta x)}{\Delta x} 
+\end{align*}
+If we now disregard $\frac{\mathbf{o}(\Delta x)}{\Delta x}$ we get an approximation known as the \textit{backward difference approximation}:
+\begin{equation*}
+	\frac{\partial}{\partial x}f(x_i) \approx \frac{f(x_i) - f(x_i - \Delta x)}{\Delta x}
+\end{equation*}
+We can now also add the forward difference approximation and the backward difference approximation together:
+\begin{align}
+	2\frac{\partial}{\partial x}f(x_i) &\approx \frac{f(x_i + \Delta x) - f(x_i)}{\Delta x} + \frac{f(x_i) - f(x_i - \Delta x)}{\Delta x} \iff\\
+	\frac{\partial}{\partial x}f(x_i) & \approx \frac{1}{2}\frac{f(x_i + \Delta x) - f(x_i) + f(x_i) - f(x_i - \Delta x)}{\Delta x} \iff \\
+	\frac{\partial}{\partial x}f(x_i) & \approx \frac{f(x_i + \Delta x) - f(x_i - \Delta x)}{2\Delta x} \label{eq:3}
+\end{align}
+\autoref{eq:3} is known as the \textit{central difference approximation}.
+
+\subsection{Higher order and higher dimensions approximations}
+We now turn our attention to higher order derivatives. If we want to compute $\frac{\partial^2 f}{\partial x^2}$ we can use the central difference approximation recursively, and use mid points to evaluate the finite differences:
+\begin{align*}
+	\frac{\partial^2}{\partial x^2}f(x_i) &\approx \frac{\frac{\partial}{\partial x}f(x_i + \frac{1}{2}\Delta x) - \frac{\partial}{\partial x}f(x_i - \frac{1}{2}\Delta x)}{\Delta x}\\
+	& = \frac{\frac{f(x_i + \Delta x) - f(x_i)}{\Delta x} - \frac{f(x_i) - f(x_i - \Delta x)}{\Delta x}}{\Delta x}\\
+	& =  \frac{f(x_i + \Delta x) - 2f(x_i) + f(x_i - \Delta x)}{\Delta x^2}
+\end{align*}
+
+For higher dimensions we get more or less the same expressions with the notation slightly changed. Taking the central difference approximation gives us:
+\begin{align*}
+	\frac{\partial f(x_i,y_j)}{\partial x} &\approx \frac{f(x_i+\Delta x,y_j) - f(x_i-\Delta x,y_j)}{2\Delta x}\\
+	\frac{\partial f(x_i,y_j)}{\partial y} &\approx \frac{f(x_i,y_j +\Delta y) - f(x_i,y_j -\Delta y)}{2\Delta y}
+\end{align*}
+We can also combine the higher order and higher dimensions to find:
+\begin{align*}
+	\frac{\partial^2}{\partial y \partial x} f_{i,j} &= \frac{\partial}{\partial x}\left(\frac{\partial}{\partial y}f_{i,j}\right)\\
+	&\approx \frac{\partial}{\partial x}\left( \frac{f_{i,j +1} - f_{i,j -1}}{2\Delta y} \right)\\
+	&\approx \frac{f_{i+1,j+1} - f_{i-1,j+1} - f_{i+1,j-1} + f_{i-1,j-1}}{4\Delta x \Delta y}
+\end{align*}
+Where we here shorten the notation and have $f_{i,j} = f(x_i,y_j)$ and $f_{i+1,j+1} = f(x_i + \Delta x,y_j + \Delta y)$.

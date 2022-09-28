@@ -1,0 +1,47 @@
+\section{Theory}
+We will now look at a 2D elasticity problem. The elasticity of a material is its ability to resist a distorting effect which would deform it, and to return to its original size and shape when the distorting force is removed. To get a better understanding of elasticity we will now apply the Finite Element Method (FEM) to the Cauchy Equation: $\rho \ddot x = \nabla \cdot \sigma + b$, where $\rho$ is the spatial mass density, $\ddot x$ is the spatial acceleration, $\nabla \cdot \sigma$ is the divergence of the Cauchy stress tensor where the Cauchy stress tensor is defined by the Cauchy's stress hypothesis: $t = \sigma n$. Here $n$ is the unit normal vector to a plane and $t$ is the corresponding traction on the plane. Conservation of angular momentum implies $\sigma$ is symmetric. Lastly $b$ is body force. The Cauchy Equation is the continuum mechanics equivalent of Newtons second law which state that the change of momentum of a body over time is directly proportional to the force applied, and it occurs in the same direction as the applied force. We can now apply the five steps of FEM.\\
+\textbf{Step 1:} The first step of FEM is to rewrite the Cauchy Equation to a volume integral. We do this by moving the terms around a little, multiply by our test function and taking the integral. This gives us:
+\begin{equation*}
+	\int_\Omega (\rho \ddot x - \nabla \cdot \sigma - b)^T w d\Omega = 0
+\end{equation*}
+Where $w$ is our test function. This integral is in the spatial domain, and thus is time variant. This means $\Omega$ changes for every time step. As this is quite impractical, we instead prefer to integrate over the material coordinates. We can go from the spatial coordinates to material coordinates because the spatial coordinates is a deformation of the material coordinates. After the change of coordinates, the above equation becomes:
+\begin{equation*}
+	\int_{\Omega_0} (\rho \ddot x - \nabla \cdot \sigma - b)^T w j d\Omega_0 = 0
+\end{equation*}
+Where $j$ is the determinant of the deformation gradient. As we are dealing with a quasi-static problem we will now assume $\ddot x = 0$, and we will also assume we are dealing with small displacements, that means our spatial and material coordinates are almost identical, which allows us to define $j = 1$. This means we end with the new equation:
+\begin{equation*}
+	\int_{\Omega_0} (- \nabla \cdot \sigma)^Twd + \Omega_0 \int_{\Omega_0}-b^T wd\Omega_0 = 0
+\end{equation*}
+\textbf{Step 2:} We can now apply integration by parts. This involves the tensor equivalent to the chain rule which gives us:
+\begin{align*}
+	\nabla \cdot (\sigma w) &= (\nabla\cdot \sigma)^T w) + \sigma : \nabla w^T \leftrightarrow\\
+	-(\nabla\cdot \sigma)^T w) &= \sigma : \nabla w^T - \nabla \cdot (\sigma w)
+\end{align*}
+Substituting with this gives us the equation:
+\begin{equation*}
+	\int_{\Omega_0}  \sigma : \nabla w^Td\Omega_0 - \int_{\Omega_0} \nabla \cdot (\sigma w)d\Omega_0 - \int_{\Omega_0}b^T wd\Omega_0 = 0
+\end{equation*}
+We can now also apply the Gauss divergence theorem to rewrite the integral of $\nabla \cdot (\sigma w)$:
+\begin{equation*}
+	\int_{\Omega_0} \nabla \cdot (\sigma w)d\Omega_0 = \int_{\Gamma_0} w^Ttd\Gamma_0 = \int_{\Gamma_t} w^Ttd\Gamma_0 
+\end{equation*}
+Where $\Gamma_0$ denotes the boundary in material coordinates and $\Gamma_t$ denotes the boundary where we apply traction. We have the last equality because the integral over the boundary where we do not apply traction simply becomes zero. Due to the symmetry of $\sigma$ the symmetric part of $ \nabla w^T$ will look a lot like the Euler strain tensor, hence we define $\epsilon_w = \frac{1}{2}(\nabla w + \nabla w^T)$. We now have the equation:
+\begin{equation*}
+	\int_{\Omega_0}  \sigma :\epsilon_wd\Omega_0 - \int_{\Gamma_t} w^Ttd\Gamma_0  - \int_{\Omega_0}b^T wd\Omega_0 = 0 
+\end{equation*}
+In \textbf{step 3} we now make an approximation of our displacement field $\bar{u}$ which we would like to solve for. We define $\bar{u} = N^e \bar{u}^e$ where \textit{N} is our shape function, more concretely we will use barycentric coordinates, and the superscript \textit{e} denotes we are dealing with finite elements. In a 2D problem our mesh would consist of triangles, each with three nodes, \textit{i, j} and \textit{k}. We would then sum the nodal values and multiply these with their respective shape function to get our approximation of the displacement field. This can be written as $\bar{u} = \sum_{\alpha \in \{i,j,k\}} N_\alpha^e \bar{u}_\alpha^e$. In \textbf{step 4} we can now define our test function as $\bar{w} = N^e\delta \bar{w}^e$ where $\delta$ is a random variable. Defining the test function with the use of shape functions is known as the Galerkin method. \\
+Before continuing to the last step we need to convert $\int_{\Omega_0}  \sigma :\epsilon_wd\Omega_0$ from tensor notation to vector notation. We know that the stress vector, $\overrightarrow{\sigma}$, is equal to the elasticity matrix, \textit{D} which is build from the Young's modulus and the Poisson ratio of the material we are modelling, times the strain vector, $\overrightarrow{\epsilon}$. That is, $\overrightarrow{\sigma} = D\overrightarrow{\epsilon}$. And we know $\overrightarrow{\epsilon} = S\bar{u} = SN^e\bar{u}^e$ where \textit{S} is the differential operator. Defining $B^e = SN^e$ we can now see:
+\begin{align*}
+	\sigma : \epsilon_w &= \overrightarrow{\sigma}^T\overrightarrow{\epsilon}_w\\
+	&= \overrightarrow{\epsilon}_w^T D \overrightarrow{\epsilon}_w\\
+	&= \delta \bar{w}^{eT}B^{eT}DB^e\bar{u}^e
+\end{align*}
+Substituting all this into our equation we find:
+\begin{equation*}
+	\left(\int_{\Omega_0^e} \delta \bar{w}^{eT}B^{eT}DB^e d\Omega_0\right) \bar{u}^e - \int_{\Gamma_t^e}\delta \bar{w}^{eT}N^{eT}td\Gamma_0 - \int_{\Omega_0^e} \delta \bar{w}^{eT}N^{eT}bd\Omega_0 = 0
+\end{equation*}
+We can now move the terms with the random variables outside the integrals and note everything still needs to equal zero, thus we can disregard the terms with random variables. This means we have:
+\begin{equation*}
+	\left(\int_{\Omega_0^e} B^{eT}DB^e d\Omega_0\right) \bar{u}^e - \int_{\Gamma_t^e}N^{eT}td\Gamma_0 - \int_{\Omega_0^e} N^{eT}bd\Omega_0 = 0
+\end{equation*}
+In \textbf{step 5} we can now reduce the terms we have left and compute a solution. In the term $\left(\int_{\Omega_0^e} B^{eT}DB^e d\Omega_0\right) \bar{u}^e$ we note when the shape functions are of first order, then the \textit{B} terms becomes constant and does not depend on the integral. We thus simply have $B^{eT}DB^eA^e$ where $A^e$ becomes the area of our triangles. In 3D this would be the volume of our tetrahedrals. We can denote this term $\mathbf{K}^e$. The two other integral terms can be combined to a common force vector which we can denote \textbf{f}. This gives us the linear system $\mathbf{K}^e\bar{u}^e = \mathbf{f}^e$. The only thing left to do is to perform the assembly process, apply our boundary conditions and then we can solve for the displacement field.

@@ -1,0 +1,41 @@
+\BOOKMARK [1][-]{section.1}{Abstract}{}% 1
+\BOOKMARK [1][-]{section.2}{Introduction}{}% 2
+\BOOKMARK [1][-]{section.3}{Theory}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Deep neural networks}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Convolutional neural networks}{section.3}% 5
+\BOOKMARK [3][-]{subsubsection.3.2.1}{U-Net}{subsection.3.2}% 6
+\BOOKMARK [3][-]{subsubsection.3.2.2}{ResNet}{subsection.3.2}% 7
+\BOOKMARK [2][-]{subsection.3.3}{Loss functions}{section.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Cross entropy}{subsection.3.3}% 9
+\BOOKMARK [3][-]{subsubsection.3.3.2}{F1-score}{subsection.3.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Optimization}{section.3}% 11
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Gradient descent}{subsection.3.4}% 12
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Adam}{subsection.3.4}% 13
+\BOOKMARK [2][-]{subsection.3.5}{Regularization}{section.3}% 14
+\BOOKMARK [3][-]{subsubsection.3.5.1}{Dropout}{subsection.3.5}% 15
+\BOOKMARK [3][-]{subsubsection.3.5.2}{Weight decay}{subsection.3.5}% 16
+\BOOKMARK [3][-]{subsubsection.3.5.3}{Normalization}{subsection.3.5}% 17
+\BOOKMARK [2][-]{subsection.3.6}{ROC curve}{section.3}% 18
+\BOOKMARK [1][-]{section.4}{Methods}{}% 19
+\BOOKMARK [2][-]{subsection.4.1}{Data pre-processing}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.2}{Separation point predictions}{section.4}% 21
+\BOOKMARK [2][-]{subsection.4.3}{Post-processing}{section.4}% 22
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Random Walker approach}{subsection.4.3}% 23
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Scoring heuristic}{subsection.4.3}% 24
+\BOOKMARK [2][-]{subsection.4.4}{Treatment prediction}{section.4}% 25
+\BOOKMARK [2][-]{subsection.4.5}{U-Net for video segmentation}{section.4}% 26
+\BOOKMARK [2][-]{subsection.4.6}{U-Net predictions for treatment prediction}{section.4}% 27
+\BOOKMARK [1][-]{section.5}{Results}{}% 28
+\BOOKMARK [2][-]{subsection.5.1}{Model evaluation and selection}{section.5}% 29
+\BOOKMARK [2][-]{subsection.5.2}{Separation point prediction}{section.5}% 30
+\BOOKMARK [2][-]{subsection.5.3}{Treatment prediction}{section.5}% 31
+\BOOKMARK [2][-]{subsection.5.4}{U-Net for video segmentation}{section.5}% 32
+\BOOKMARK [2][-]{subsection.5.5}{U-Net predictions for treatment prediction}{section.5}% 33
+\BOOKMARK [1][-]{section.6}{Discussion of results}{}% 34
+\BOOKMARK [2][-]{subsection.6.1}{Model evaluation}{section.6}% 35
+\BOOKMARK [2][-]{subsection.6.2}{Separation point predictions}{section.6}% 36
+\BOOKMARK [2][-]{subsection.6.3}{Treatment predictions}{section.6}% 37
+\BOOKMARK [2][-]{subsection.6.4}{U-Net for video segmentation}{section.6}% 38
+\BOOKMARK [2][-]{subsection.6.5}{U-Net predictions for treatment prediction}{section.6}% 39
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 40
+\BOOKMARK [1][-]{section.8}{References}{}% 41

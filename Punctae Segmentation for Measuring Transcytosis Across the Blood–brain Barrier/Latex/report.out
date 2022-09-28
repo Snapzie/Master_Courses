@@ -1,0 +1,32 @@
+\BOOKMARK [1][-]{section.1}{Motivation}{}% 1
+\BOOKMARK [1][-]{section.2}{Theory}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Two-photon microscopy}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Convolutional layers}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Max pooling layers}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Transposed convolutions}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Convolutional Neural Networks}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.6}{Transfer learning}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.7}{Optimization}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.8}{Data augmentation}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.9}{Measurement Metrics}{section.2}% 11
+\BOOKMARK [1][-]{section.3}{Methods}{}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Preprocessing}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.2}{Models}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.3}{Testing}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.4}{Augmentations}{section.3}% 16
+\BOOKMARK [2][-]{subsection.3.5}{Construction of augmented training sets}{section.3}% 17
+\BOOKMARK [1][-]{section.4}{Results}{}% 18
+\BOOKMARK [2][-]{subsection.4.1}{Initial results}{section.4}% 19
+\BOOKMARK [2][-]{subsection.4.2}{Augmentation results}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.3}{Test results}{section.4}% 21
+\BOOKMARK [1][-]{section.5}{Discussion of results}{}% 22
+\BOOKMARK [2][-]{subsection.5.1}{Initial results}{section.5}% 23
+\BOOKMARK [2][-]{subsection.5.2}{Augmentation results}{section.5}% 24
+\BOOKMARK [2][-]{subsection.5.3}{Test results}{section.5}% 25
+\BOOKMARK [2][-]{subsection.5.4}{Automatic tool}{section.5}% 26
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 27
+\BOOKMARK [1][-]{section.7}{References}{}% 28
+\BOOKMARK [1][-]{section.8}{Appendix}{}% 29
+\BOOKMARK [2][-]{subsection.8.1}{Full sized images vs. halved sized images}{section.8}% 30
+\BOOKMARK [2][-]{subsection.8.2}{Test results}{section.8}% 31
+\BOOKMARK [2][-]{subsection.8.3}{Prediction examples}{section.8}% 32

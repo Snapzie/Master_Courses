@@ -1,0 +1,22 @@
+\subsection{Central difference approximation}
+In the derivation of the Cauchy equation we used the forward difference approximation to derive the velocity and positional updates. This along with the backwards and central difference approximations can be derived from a Taylor expansion. We will here see the derivation for a second order central difference approximation. The other approximations are very similar.\\
+First we write up the forward and backwards terms:
+\begin{align*}
+	f(x_i+\Delta x_i) &= f(x_i) + f^{(1)}\Delta x + \frac{1}{2}f^{(2)}(\Delta x)^2 + \text{\textbf{o}}((\Delta x)^2)\\
+	f(x_i-\Delta x_i) &= f(x_i) - f^{(1)}\Delta x + \frac{1}{2}f^{(2)}(-\Delta x)^2 + \text{\textbf{o}}((-\Delta x)^2)
+\end{align*}
+Adding these equations together gives us:
+\begin{align*}
+	f(x_i+\Delta x_i) + f(x_i-\Delta x_i) &= f(x_i) + f^{(1)}\Delta x + \frac{1}{2}f^{(2)}(x_i)(\Delta x)^2 +\\ 
+	&\text{\textbf{o}}((\Delta x)^2)+ f(x_i) - f^{(1)}\Delta x + \frac{1}{2}f^{(2)}(x_i)(-\Delta x)^2 +\\
+	&\text{\textbf{o}}((-\Delta x)^2) \iff\\
+	f(x_i+\Delta x_i) + f(x_i-\Delta x_i) &= 2f(x_i) + f^{(2)}(x_i)(\Delta x)^2 + \text{\textbf{o}}((\Delta x)^4)\iff\\
+	\frac{f(x_i+\Delta x_i) + f(x_i-\Delta x_i)}{(\Delta x)^2} &= \frac{2f(x_i)}{(\Delta x)^2} + f^{(2)}(x_i) + \frac{\text{\textbf{o}}((\Delta x)^4)}{(\Delta x)^2} \iff\\
+	f^{(2)}(x_i) &= \frac{f(x_i+\Delta x_i) + f(x_i-\Delta x_i) - 2f(x_i)}{(\Delta x)^2} - \\ 
+	& \text{\textbf{o}}((\Delta x)^2)
+\end{align*}
+We thus find:
+\begin{equation*}
+	\frac{\partial^2f(x_i)}{\partial x^2} \approx \frac{f(x_i+\Delta x_i) + f(x_i-\Delta x_i) - 2f(x_i)}{(\Delta x)^2}
+\end{equation*}
+The $ \text{\textbf{o}}((\Delta x)^2)$ means the approximation is second order accurate.

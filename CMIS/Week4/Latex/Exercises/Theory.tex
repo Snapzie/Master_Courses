@@ -1,0 +1,73 @@
+\section{Theory}
+\subsection{Finite Element Method}
+The Finite Element Method (FEM) is a method in five steps to numerically solve differential equations. FEM works by subdividing a large system into more smaller and simpler systems which are called \textit{finite elements} which then can be discretized. FEM approximates the unknown function by taking the smaller systems that model the finite elements and assembles them into a larger system that models the entire problem and then solves the resulting system of equations. The five steps of FEM can be described as:
+\begin{enumerate}
+	\item \textbf{Write the volume integral.} In this initial step we are given some partial differential equation which evaluates to some known function, and we are given some boundary conditions. We then rewrite the partial differential equation such that the equation equals zero, then multiply by a trial function and then take the integral over the domain.
+	\item \textbf{Perform integration by parts.} We then perform integration by parts which means we reduce our problem from \textit{strong form} to \textit{weak form}, meaning our original partial derivative had to be twice differentiable, but now only needs to be differentiable. However, the trial function we introduced now also needs to be differentiable.
+	\item \textbf{Make an approximation.} We can now find an approximation to our continuous unknown function by breaking it into a discrete set of \textit{n} values that we can combine by some weight scheme given by a shape function. We will go into details about shape functions in the next section. We can now substitute our unknown function by this approximation.
+	\item \textbf{Choose a trial function.} We then define our trial function in a way which makes us realize we are solving a linear system.
+	\item \textbf{Compute a solution.} Lastly we handle our boundary conditions and we solve our linear system to find an approximation to the unknown function.
+\end{enumerate}
+
+\subsection{Shape functions}
+The shape functions are the functions which interpolates the solution between discrete nodes in our mesh. When we make an approximation of the unknown function we use shape functions. These can be seen both globally and locally. We are interested in two properties of these shape functions, namely that they interpolate the points, and that they 'preserve mass', more formally called \textit{partition of unity}. In 1D we would have the interpolation property of the global shape functions telling us:
+\begin{equation*}
+	N_i(x) = \begin{cases}
+		1 \quad x = x_i\\
+		0 \quad x \neq x_i
+	\end{cases}
+\end{equation*}
+Which means the geometric shape of the shape functions would be a lot triangles next to each other, spiking up to 1. A concern here is the shape functions might not be differentiable at all points. Because of this we define local shape functions. We define the local shape functions between two nodes $x_i$ and $x_j$ as:
+\begin{equation*}
+	N_i^e = \frac{x_j - x}{\Delta x}, \quad N_j^e = \frac{x - x_i}{\Delta x}
+\end{equation*} 
+The partition of unity tells us:
+\begin{equation*}
+	\sum_i N_i(x) = 1
+\end{equation*}
+Which means that at all points the 'mass' is always 1. In 2D we would use triangles to constitute our elements, and thus we would use \textit{barycentric coordinates} as shape functions. Locally this would be defined as:
+\begin{equation*}
+	N_i^e = \frac{A_i^e}{A^e}, \quad N_j^e = \frac{A_j^e}{A^e}, \quad N_k^e = \frac{A_k^e}{A^e}
+\end{equation*}
+Where the numerators are the area of the triangle made by having a point inside the original triangle and substituting the subscript vertex by that point and $A^e$ is the area of the original triangle.
+
+\subsection{Example derivation}
+We will no apply the five steps of FEM to a 1D problem. We begin with the partial differential equation $\frac{\partial^2 y(x)}{\partial x^2} = c(x)$ where we would like to approximate $y(x)$ and are given $c(x)$. We are also given the boundary conditions $y(x_1) = a$ and $y(x_n) = b$. In \textbf{step 1} we rewrite our partial differential equation into a volume integral. We do this by multiplying by a \textit{trial function} and integrating over our domain:
+\begin{equation*}
+	\int_{x_1}^{x_n} v(x)\left(\frac{\partial^2 y(x)}{\partial x^2} - c(x)\right)dx = \int_{x_1}^{x_n} v(x)\frac{\partial^2 y(x)}{\partial x^2} dx - \int_{x_1}^{x_n} v(x)c(x) dx = 0
+\end{equation*}
+Our trial function is an arbitrary function defined such that $v(x_1) = v(x_n) = 0$. In \textbf{step 2} we apply integration by parts which gives us that our first term can be rewritten:
+\begin{equation*}
+	\int_{x_1}^{x_n} v(x)\frac{\partial^2 y(x)}{\partial x^2} dx = \left[v(x)\frac{\partial y(x)}{\partial x}\right]_{x_1}^{x_n} - \int_{x_1}^{x_n} \frac{\partial v(x)}{\partial x}\frac{\partial y(x)}{\partial x} dx
+\end{equation*}
+Given the definition of our trial function we have the first part of our new expression is simply zero and after multiplying by -1 we now have the equation:
+\begin{equation*}
+	\int_{x_1}^{x_n} \frac{\partial v(x)}{\partial x}\frac{\partial y(x)}{\partial x} dx + \int_{x_1}^{x_n} v(x)c(x) dx = 0
+\end{equation*}
+In \textbf{step 3} we now find an approximation of our continuous unknown \textit{y} function. We do this by breaking it into a discrete set of \textit{n} points $(\hat{y}_i, x_i)$. We then have:
+\begin{equation*}
+	y(x) \approx \tilde{y}(x) = \sum_{i=1}^{n}N_i(x)\hat{y}_i = \begin{bmatrix}
+		N_1(x),\dots,N_n(x)
+	\end{bmatrix}\begin{bmatrix}
+	\hat{y}_1\\
+	\vdots\\
+	\hat{y}_n
+\end{bmatrix} = \mathbf{N}\hat{y}
+\end{equation*}
+We can now replace $y(x)$ with our approximation which gives us:
+\begin{equation*}
+	\int_{x_1}^{x_n} \frac{\partial v(x)}{\partial x}\frac{\partial \mathbf{N}(x)}{\partial x}\hat{y} dx + \int_{x_1}^{x_n} v(x)c(x) dx = 0
+\end{equation*}
+In \textbf{step 4} we define our trial function further, defining it as $v(x) = \mathbf{N}\delta\mathbf{y}$ where $\delta\mathbf{y}$ is a vector of random values for all discrete points. Defining our trial function using our shape functions is known as the \textit{Galerkin method}. We can now replace our trial functions with this new definition. Realizing neither $\delta\mathbf{y}$ or $\hat{y}$ depends on \textit{x} we can move them outside our integrals. Further realizing we now are multiplying random values on our integrals, and they still need to evaluate to zero, we can completely disregard $\delta\mathbf{y}$ and we now have:
+\begin{equation*}
+	\left(\int_{x_1}^{x_n} \frac{\partial \mathbf{N}^T(x)}{\partial x}\frac{\partial \mathbf{N}(x)}{\partial x} dx \right)\hat{y} + \int_{x_1}^{x_n} \mathbf{N}^T(x)c(x) dx = 0
+\end{equation*}
+We can now define our first integral as \textbf{K} and our second integral as \textbf{-f} and see we now have the linear system $\mathbf{K}\hat{y} = \mathbf{f}$. In \textbf{step 5} we can now insert our boundary conditions in \textbf{K} and \textbf{f} which in our case means we define $\mathbf{K}_{11} = 1$ and the rest of the elements in row 1 as 0 and $\mathbf{K}_{nn} = 1$ and the rest of the elements of row \textit{n} as 0. We then also define $\mathbf{f}_1 = a$ and $\mathbf{f}_n = b$. This way we have now applied our original boundary conditions $y(x_1) = a$ and $y(x_n) = b$. We would now be able to solve our system for our approximation of the \textit{y} function. This is an approximation in a global setting. One concern would be if our shape functions are non differentiable at certain points. To alleviate this concern, we can derive this global setting from examining the local setting:
+\begin{align*}
+	\int_{x_1}^{x_n} \frac{\partial \mathbf{N}^T(x)}{\partial x}\frac{\partial \mathbf{N}(x)}{\partial x}\hat{y} dx + \int_{x_1}^{x_n} \mathbf{N}^T(x)c(x) dx& =\\ \sum_e \left(\int_{x_i}^{x_j} \frac{\partial \mathbf({N}^e)^T(x)}{\partial x}\frac{\partial \mathbf{N}^e(x)}{\partial x}\hat{y}^e dx + \int_{x_i}^{x_j} \mathbf({N}^e)^T(x)c(x) dx\right)& = 0
+\end{align*}
+Where \textit{e} is the element between two consecutive nodes $x_i$ and $x_j$. Here $\mathbf{N}^e(x)$ is now composed of the local shape functions and $\hat{y}^e$ is composed of the discretized y-value at $x_i$ and $x_j$. And this shows us that we can assemble the local elements into a global system as:
+\begin{equation*}
+	\mathbf{K}\hat{y} = \sum_e \mathbf{K}^e\hat{y}^e = \sum_e \mathbf{f}^e = \mathbf{f}
+\end{equation*}
+We can now see how we started with one large system which we then subdivide into smaller systems, one for each element in the system, and used the local shape functions to approximate the integrals to avoid non differentiable points, and then we assemble these smaller systems back to one large system that models the entire problem.

@@ -1,0 +1,11 @@
+\subsection{Conclusion}
+In conclusion we have seen the importance of precise correspondences when we want to estimate the fundamental matrix, and we have seen using Ransac make the estimation very robust to random noise. An interesting experiment could have been to add the original correspondences as noise to the improved correspondences to see if this would result in more or less error than using random correspondences. The idea would be it would be harder for Ransac to differentiate between inliers and outliers if the correspondences are not purely random. Probably some of the original correspondences would be classified as inliers and would then most likely make the estimation worse.\\
+We end by summarizing the reported scanline errors of the baseline and the improved correspondences (IC):
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}\hline
+									 &Baseline & Baseline and Ransac & IC 		&IC and Ransac\\\hline
+		Mean					 &8.53	    & 4.14							& 1.92	 &1.52				  \\\hline
+		Standard deviation&7.14		  & 2.57						  &1.40	   &1.40		        \\\hline
+	\end{tabular}
+\end{table}

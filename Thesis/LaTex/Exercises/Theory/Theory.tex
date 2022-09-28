@@ -1,0 +1,36 @@
+\section{Theory}
+In this section the theory used throughout the thesis work is presented. This includes a presentation of the original model architectures used, the loss functions which were used, the optimization algorithm the models were trained with, various regularization techniques used to avoid overfitting and how to interpret ROC curves.
+
+\input{Exercises/Theory/DeepLearning}
+\subsection{ROC curve}
+When training binary classifiers a common performance measure is to draw the receiver operating characteristics (ROC) curve. The curve is drawn by plotting the true positive rate against the false positive rate for several thresholds. The true positive rate is computed as $\frac{TP}{TP+FN}$ where \textit{TP} is the true positives, and \textit{FN} is the false negatives. The false positive rate is computed as $\frac{FP}{TN+FP}$ where \textit{FP} is the false positives and \textit{TN} is the true negatives. In a binary classification problem the class with a predicted probability of more than $0.5$, is usually the class one denotes as the class the model predicted. But the threshold of $0.5$ could arbitrarily be changed, and by changing it we can draw ROC curves \cite{ROC}. ROC curves can thus be read as a measure of how many more false positives we introduce if we wish to increase the number of true positives.\\
+The evaluation of a ROC curve is usually done by measuring the area under the curve which is between 0 and 1 with a higher area under the curve being better. If we think of the true negatives and the true positives as two distributions, we achieve the best results when the two distributions do not overlap. In this case we get a perfect separability of the two cases, and we get an area under the curve of 1. If the two distributions begins to overlap, however, we begin to see false negative and false positive predictions, and we get a slightly lower area under the curve. In the worst case, the two distributions match and lies on top of each other, and there is no distinction between true positives and true negatives. Here we get an area under the curve of $0.5$. When the model predicts all class 1 samples as class 0, and vice versa, we see an area under the curve of $0$. These scenarios are illustrated in \autoref{ROC} \cite{ROC}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.48\linewidth}
+		\vspace{0.3cm}
+		\includegraphics[width=\linewidth]{Materials/Theory/ROC1}
+		\caption{When the two distributions do not overlap.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Materials/Theory/ROC2}
+		\caption{When the two distributions slightly overlap.}
+	\end{subfigure}
+	\\
+	\begin{subfigure}{0.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Materials/Theory/ROC3}
+		\caption{When the two distributions are in indistinguishable.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.48\linewidth}
+		\vspace{0.8cm}
+		\includegraphics[width=\linewidth]{Materials/Theory/ROC4}
+		\caption{When the model predicts all samples wrong.}
+	\end{subfigure}
+	\caption{Examples of how different area under the curve are achieved. Illustrations are from \cite{ROC}.}
+	\label{ROC}
+\end{figure}
